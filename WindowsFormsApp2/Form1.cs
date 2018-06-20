@@ -37,12 +37,13 @@ namespace WindowsFormsApp2
         {
             //действия при запуске
             InitializeComponent();
-            path = Properties.Settings.Default.directory;
-            textBox1.Text = path;
-            URL = "http://www.tandots.ru/LA.zip";
+            InstConfigDiv();
             Testdiv();
+            textBox1.Text = path;
+            URL = "http://www.tandots.ru/TL.exe";
+            UpdateVer();
             serverVer();
-            label3.Text = Properties.Settings.Default.ver;
+            label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
         }
         //узнаем версию
         private void UpdateVer()
@@ -50,7 +51,7 @@ namespace WindowsFormsApp2
             using (var client = new WebClient())
             using (var stream = client.OpenRead("http://www.tandots.ru/ver.txt"))
             using (var reader = new StreamReader(stream))
-            VersionС = reader.ReadToEnd();
+                VersionS = reader.ReadToEnd();
         }
         //узнаем версию сервера
         private void serverVer()
@@ -70,6 +71,7 @@ namespace WindowsFormsApp2
         //прогрузка конфигов
         private void InstConfigDiv()
         {
+            VersionС = Properties.Settings.Default.ver;
             path = Properties.Settings.Default.directory;
             pathDic = @path;
 
@@ -81,17 +83,32 @@ namespace WindowsFormsApp2
 
         }
 
-        private void button1_Click (object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UpdateClient();
+        }
+        private void UpdateClient()
         {
             InstConfigDiv();
-            if (Directory.Exists(@pathDic + @DivGame + @"\.minecaft") & Directory.Exists(@pathDic + @DivGame + @"\Launcher") & Directory.Exists(@pathDic + @DivGame + @"\TLauncher") & File.Exists(@pathDic + @DivGame + @"tlauncher.args") & File.Exists(@pathDic + @DivGame + @"start.exe"))
+            if(System.IO.Directory.Exists(path + DivGame + @"\.minecraft"))
             {
-                MessageBox.Show("Все есть");
+                DeliteUpdate();
+                if(System.IO.File.Exists(path + DivGame + @"\TL.exe"))
+                {
+                    File.Delete(path + DivGame + @"\TL.exe");
+                }
+                DownloadZip();
             }
             else
             {
+                if (System.IO.File.Exists(path + DivGame + @"\TL.exe"))
+                {
+                    File.Delete(path + DivGame + @"\TL.exe");
+                }
                 DownloadZip();
+
             }
+
         }
         //скачивание
         private void DownloadZip()
@@ -109,34 +126,36 @@ namespace WindowsFormsApp2
         void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-            label1.Text = "Загрузка "+Convert.ToString(progressBar1.Value)+"%";
-            
+            label1.Text = "Загрузка " + Convert.ToString(progressBar1.Value) + "%";
+
         }
 
         // действия после скачивание архива
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            label1.Text = "Распоковка";
+            label1.Text = "Скачивание завершено";
             Zip();
-
+            VersionС = VersionS;
+            Properties.Settings.Default.ver = VersionС;
+            Properties.Settings.Default.Save();
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private void Zip()
         {
+            label1.Text = "Распоковка";
             InstConfigDiv();
+            Directory.SetCurrentDirectory(path + DivGame);
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.CreateNoWindow = false;
-            startInfo.UseShellExecute = false;
+            startInfo.UseShellExecute = true;
             startInfo.FileName = pathDic + DivGame + @"\TL.exe";
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.Arguments = "";
             Process.Start(startInfo);
         }
-        private void Delite()
+        //удаление фалов перед обнавлением
+        private void DeliteUpdate()
         {
             SortedSet<string> filesToIgnore = new SortedSet<string>(StringComparer.OrdinalIgnoreCase) {
                 "servers.dat",
@@ -161,18 +180,29 @@ namespace WindowsFormsApp2
             //Directory.GetDirectories
 
         }
+        private void Start()
+        {
+            InstConfigDiv();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.CreateNoWindow = false;
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = pathDic + DivGame + @"\start.exe";
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.Arguments = "";
+            Process.Start(startInfo);
 
+        }
 
 
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "https://downloader.disk.yandex.ru/disk/d6f2da80cbb6a2b7b10366d2886d997c725a04b12e9eab2c4828908405e014d4/5b294070/PchyKDV67Ffgsy8bWN3BKg3kWRwoAHfFSCbze3jPe6QhtJ7K7R11-6iQeZVCFBmzdU36KCoie11gtLCH1Eim3w%3D%3D?uid=0&filename=LA.zip&disposition=attachment&hash=EukMpZERjc1%2BT4d4UCcmILyBpSaLY7we4lqIRRbRHs8%3D%3A&limit=0&content_type=application%2Fx-zip-compressed&fsize=331501514&hid=2ee0bb473f524c20965ddc45f9909225&media_type=compressed&tknv=v2";
+            URL = "http://www.tandots.ru/TL.exe";
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "http://www.tandots.ru/LA.zip";
+            URL = "http://www.tandots.ru/TL.exe";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -198,6 +228,9 @@ namespace WindowsFormsApp2
             Properties.Settings.Default.directory = textBox1.Text;
             Properties.Settings.Default.Save();
             MessageBox.Show("Сохранено");
+            InstConfigDiv();
+            Testdiv();
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -212,12 +245,36 @@ namespace WindowsFormsApp2
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Zip();
+            InstConfigDiv();
+            Directory.SetCurrentDirectory(path + DivGame);
+            ProcessStartInfo startbat= new ProcessStartInfo();
+            startbat.CreateNoWindow = false;
+            startbat.UseShellExecute = false;
+            startbat.FileName = pathDic + DivGame + @"\TL.bat";
+            startbat.WindowStyle = ProcessWindowStyle.Hidden;
+            startbat.Arguments = "";
+            Process.Start(startbat);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Delite();
+            InstConfigDiv();
+            if (VersionС != VersionS & !System.IO.Directory.Exists(path + DivGame + @"\.minecraft") & !System.IO.Directory.Exists(path + DivGame + @"\TLauncher") & !System.IO.File.Exists(path + DivGame + @"\start.exe"))
+            {
+                MessageBox.Show("Устаревшая версия");
+                UpdateClient();
+            }
+            else
+            {
+                MessageBox.Show("Все есть");
+                Start();
+                this.Close();
+            }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

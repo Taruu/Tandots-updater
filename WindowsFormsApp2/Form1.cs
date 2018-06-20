@@ -30,7 +30,8 @@ namespace WindowsFormsApp2
         private string path;
         private string pathDic;
         private string DivGame = @"\tandots";
-        private string Version;
+        private string VersionС;
+        private string VersionS;
 
         public Form1()
         {
@@ -49,7 +50,7 @@ namespace WindowsFormsApp2
             using (var client = new WebClient())
             using (var stream = client.OpenRead("http://www.tandots.ru/ver.txt"))
             using (var reader = new StreamReader(stream))
-            Version = reader.ReadToEnd();
+            VersionС = reader.ReadToEnd();
         }
         //узнаем версию сервера
         private void serverVer()

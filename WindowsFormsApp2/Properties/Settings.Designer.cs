@@ -58,5 +58,17 @@ namespace WindowsFormsApp2.Properties {
                 this["VersionZero"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.0.5.0")]
+        public string VerApp {
+            get {
+                return ((string)(this["VerApp"]));
+            }
+            set {
+                this["VerApp"] = value;
+            }
+        }
     }
 }

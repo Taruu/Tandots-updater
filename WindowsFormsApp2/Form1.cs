@@ -197,7 +197,7 @@ namespace WindowsFormsApp2
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "http://www.tandots.ru/TL.exe";
+            URL = "http://taruu.ru/TL.exe";
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)

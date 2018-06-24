@@ -36,6 +36,14 @@ namespace WindowsFormsApp2
         public Form1()
         {
             InitializeComponent();
+            InstConfigDiv();
+            Testdiv();
+            textBox1.Text = path;
+            URL = "http://www.tandots.ru/TL.exe";
+            UpdateVer();
+            serverVer();
+            label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
+            //UpdateApp();
         }
         //узнаем версию
         private void UpdateVer()
@@ -80,7 +88,6 @@ namespace WindowsFormsApp2
             UpdateVer();
             serverVer();
             label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
-            UpdateApp();
 
         }
 
@@ -123,47 +130,6 @@ namespace WindowsFormsApp2
             webClient.DownloadFileAsync(new Uri(URL), pathDic + @"\tandots" + @"\TL.exe");
 
         }
-        //Система обновления программы
-        private void UpdateApp()
-        {
-            string CurVer = Properties.Settings.Default.VerApp;
-            string SerVer;
-            using (var client = new WebClient())
-            using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/VerApp.txt"))
-            using (var reader = new StreamReader(stream))
-                SerVer= reader.ReadToEnd();
-            if(SerVer != CurVer)
-            {
-                
-                if (File.Exists(path + DivGame + @"\Update.exe"))
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo();
-                    startInfo.CreateNoWindow = false;
-                    startInfo.UseShellExecute = true;
-                    startInfo.FileName = path + DivGame + @"\Update.exe";
-                    startInfo.WindowStyle = ProcessWindowStyle.Normal;
-                    startInfo.Arguments = "";
-                    Process.Start(startInfo);
-                }
-                else
-                {
-                    WebClient wc = new WebClient();
-                    string url = "http://www.tandots.ru/Launcher/update.exe";
-                    string file = path + DivGame + @"\Update.exe";
-                    wc.DownloadFile(url, file);
-                    if (File.Exists(path + DivGame + @"\Update.exe"))
-                    {
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.CreateNoWindow = false;
-                        startInfo.UseShellExecute = true;
-                        startInfo.FileName = path + DivGame + @"\Update.exe";
-                        startInfo.WindowStyle = ProcessWindowStyle.Normal;
-                        startInfo.Arguments = "";
-                        Process.Start(startInfo);
-                    }
-                }
-            }
-        }
 
         void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -182,7 +148,7 @@ namespace WindowsFormsApp2
             Properties.Settings.Default.Save();
 
         }
-
+        //действия с zip
         private void Zip()
         {
             label1.Text = "Распоковка";
@@ -252,16 +218,16 @@ namespace WindowsFormsApp2
             FolderBrowserDialog FBD = new FolderBrowserDialog();
             if (FBD.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(FBD.SelectedPath);
+                MessageBox.Show(FBD.SelectedPath + " ?");
                 path = FBD.SelectedPath;
-                textBox1.Text = FBD.SelectedPath;
-                path = textBox1.Text;
+                textBox1.Text = path;
+
             }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -292,7 +258,7 @@ namespace WindowsFormsApp2
             ProcessStartInfo startbat= new ProcessStartInfo();
             startbat.CreateNoWindow = false;
             startbat.UseShellExecute = false;
-            startbat.FileName = pathDic + DivGame + @"\TL.bat";
+            startbat.FileName = pathDic + DivGame + @"\TL.exe";
             startbat.WindowStyle = ProcessWindowStyle.Hidden;
             startbat.Arguments = "";
             Process.Start(startbat);
@@ -317,6 +283,21 @@ namespace WindowsFormsApp2
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            textBox1.Text = "12313123";
         }
     }
 

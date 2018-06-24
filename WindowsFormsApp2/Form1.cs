@@ -38,11 +38,12 @@ namespace WindowsFormsApp2
             InitializeComponent();
             InstConfigDiv();
             Testdiv();
-            textBox1.Text = path;
+            pathtextbox.Text = path;
             URL = "http://www.tandots.ru/TL.exe";
             UpdateVer();
             serverVer();
             label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
+            webBrowser1.Navigate("");
             //UpdateApp();
         }
         //узнаем версию
@@ -79,15 +80,7 @@ namespace WindowsFormsApp2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //действия при запуске
-            InitializeComponent();
-            InstConfigDiv();
-            Testdiv();
-            textBox1.Text = path;
-            URL = "http://www.tandots.ru/TL.exe";
-            UpdateVer();
-            serverVer();
-            label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
+         
 
         }
 
@@ -215,13 +208,15 @@ namespace WindowsFormsApp2
 
         private void button3_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog FBD = new FolderBrowserDialog();
-            if (FBD.ShowDialog() == DialogResult.OK)
+            ChooseFolder();
+        }
+        public void ChooseFolder()
+        {
+            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(FBD.SelectedPath + " ?");
-                path = FBD.SelectedPath;
-                textBox1.Text = path;
-
+                pathtextbox.Text = folderBrowserDialog1.SelectedPath;
+                path = folderBrowserDialog1.SelectedPath;
             }
         }
 
@@ -229,11 +224,12 @@ namespace WindowsFormsApp2
         {
             
         }
-
+        // save config
         private void button4_Click(object sender, EventArgs e)
         {
-            path = @textBox1.Text;
-            Properties.Settings.Default.directory = textBox1.Text;
+            path = pathtextbox.Text;
+            Directory.CreateDirectory(path);
+            Properties.Settings.Default.directory = path;
             Properties.Settings.Default.Save();
             MessageBox.Show("Сохранено");
             InstConfigDiv();
@@ -297,7 +293,22 @@ namespace WindowsFormsApp2
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-            textBox1.Text = "12313123";
+            pathtextbox.Text = "12313123";
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
     }
 

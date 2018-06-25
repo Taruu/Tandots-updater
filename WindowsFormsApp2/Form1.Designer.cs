@@ -42,6 +42,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pathtextbox = new System.Windows.Forms.TextBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // button1
@@ -68,7 +69,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.label1.Location = new System.Drawing.Point(13, 586);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 13);
@@ -110,9 +111,9 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(12, 485);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 13);
+            this.label2.Size = new System.Drawing.Size(179, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "выберите сервер для скачивания";
+            this.label2.Text = "Выберите сервер для скачивания";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button2
@@ -191,12 +192,25 @@
             this.webBrowser1.TabIndex = 13;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel1.Location = new System.Drawing.Point(651, 477);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel1.TabIndex = 14;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Наш сайт";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(807, 608);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.pathtextbox);
             this.Controls.Add(this.label4);
@@ -238,6 +252,7 @@
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox pathtextbox;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

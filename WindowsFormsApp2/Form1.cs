@@ -43,14 +43,14 @@ namespace WindowsFormsApp2
             UpdateVer();
             serverVer();
             label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
-            webBrowser1.Navigate("");
+            webBrowser1.Navigate("http://tandots.ru/news.html");
             //UpdateApp();
         }
         //узнаем версию
         private void UpdateVer()
         {
             using (var client = new WebClient())
-            using (var stream = client.OpenRead("http://www.tandots.ru/ver.txt"))
+            using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/TL/ver.txt"))
             using (var reader = new StreamReader(stream))
                 VersionS = reader.ReadToEnd();
         }
@@ -58,7 +58,7 @@ namespace WindowsFormsApp2
         private void serverVer()
         {
             using (var client = new WebClient())
-            using (var stream = client.OpenRead("http://www.tandots.ru/ver.txt"))
+            using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/TL/ver.txt"))
             using (var reader = new StreamReader(stream))
                 label4.Text = "Версия сервера: " + reader.ReadToEnd();
         }
@@ -80,7 +80,7 @@ namespace WindowsFormsApp2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-         
+
 
         }
 
@@ -91,10 +91,10 @@ namespace WindowsFormsApp2
         private void UpdateClient()
         {
             InstConfigDiv();
-            if(System.IO.Directory.Exists(path + DivGame + @"\.minecraft"))
+            if (System.IO.Directory.Exists(path + DivGame + @"\.minecraft"))
             {
                 DeliteUpdate();
-                if(System.IO.File.Exists(path + DivGame + @"\TL.exe"))
+                if (System.IO.File.Exists(path + DivGame + @"\TL.exe"))
                 {
                     File.Delete(path + DivGame + @"\TL.exe");
                 }
@@ -130,7 +130,16 @@ namespace WindowsFormsApp2
             label1.Text = "Загрузка " + Convert.ToString(progressBar1.Value) + "%";
 
         }
+        private void CretDiv()
+        {
+            Directory.CreateDirectory(path + DivGame + @"\.minecraft\home\Forge-1.7\mods");
+            Directory.CreateDirectory(path + DivGame + @"\Launcher");
+            Directory.CreateDirectory(path + DivGame + @"\minecraft\versions");
+            Directory.CreateDirectory(path + DivGame + @"\minecraft\home\Forge-1.7");
+            Directory.CreateDirectory(path + DivGame + @"\minecraft\home\1.10");
 
+        }
+  
         // действия после скачивание архива
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
@@ -141,6 +150,7 @@ namespace WindowsFormsApp2
             Properties.Settings.Default.Save();
 
         }
+
         //действия с zip
         private void Zip()
         {
@@ -162,16 +172,19 @@ namespace WindowsFormsApp2
                 "servers.dat",
                 "resourcepacks",
                 "saves",
-                "config"
+                "config",
+                "server-resource-packs",
+                "logs",
+                ""
             };
-            foreach (var filePath in Directory.EnumerateFiles(path + DivGame + @"\.minecraft"))
+            foreach (var filePath in Directory.EnumerateFiles(path + DivGame + @"\.minecraft\home"))
             {
                 string fileName = Path.GetFileName(filePath);
                 if (!filesToIgnore.Contains(fileName))
                     File.Delete(filePath);
             }
 
-            foreach (var dirPath in Directory.EnumerateDirectories(path + DivGame + @"\.minecraft"))
+            foreach (var dirPath in Directory.EnumerateDirectories(path + DivGame + @"\.minecraft\home"))
             {
                 string DirName = Path.GetFileName(dirPath);
                 if (!filesToIgnore.Contains(DirName))
@@ -198,7 +211,7 @@ namespace WindowsFormsApp2
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "http://taruu.ru/TL.exe";
+            URL = "http://taruu.ru/tandots/TL.exe";
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
@@ -270,7 +283,7 @@ namespace WindowsFormsApp2
             }
             else
             {
-                MessageBox.Show("Все есть");
+                label1.Text = "Запуск";
                 Start();
                 this.Close();
             }
@@ -309,6 +322,11 @@ namespace WindowsFormsApp2
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
 
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://www.tandots.ru");
         }
     }
 

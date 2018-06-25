@@ -11,8 +11,5 @@
     <Setting Name="VersionZero" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="VerApp" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0.0.5.0</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

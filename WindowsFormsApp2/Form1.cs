@@ -40,27 +40,22 @@ namespace WindowsFormsApp2
             Testdiv();
             pathtextbox.Text = path;
             URL = "http://www.tandots.ru/TL.exe";
-            UpdateVer();
             serverVer();
             label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
             webBrowser1.Navigate("http://tandots.ru/news.html");
             //UpdateApp();
         }
         //узнаем версию
-        private void UpdateVer()
-        {
-            using (var client = new WebClient())
-            using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/TL/ver.txt"))
-            using (var reader = new StreamReader(stream))
-                VersionS = reader.ReadToEnd();
-        }
+        
         //узнаем версию сервера
         private void serverVer()
         {
             using (var client = new WebClient())
             using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/TL/ver.txt"))
             using (var reader = new StreamReader(stream))
-                label4.Text = "Версия сервера: " + reader.ReadToEnd();
+            VersionS = reader.ReadToEnd();
+            label4.Text = "Версия сервера: " + VersionS;
+            
         }
 
         //создание новой папки
@@ -241,6 +236,12 @@ namespace WindowsFormsApp2
         private void button4_Click(object sender, EventArgs e)
         {
             path = pathtextbox.Text;
+            if(path == "")
+            {
+                MessageBox.Show("Выберети папку!");
+                ChooseFolder();
+
+            }
             Directory.CreateDirectory(path);
             Properties.Settings.Default.directory = path;
             Properties.Settings.Default.Save();

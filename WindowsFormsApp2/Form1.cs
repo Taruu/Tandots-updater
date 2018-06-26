@@ -32,6 +32,7 @@ namespace WindowsFormsApp2
         private string DivGame = @"\tandots";
         private string VersionС;
         private string VersionS;
+        private string TandotsUp;
 
         public Form1()
         {
@@ -43,9 +44,20 @@ namespace WindowsFormsApp2
             serverVer();
             label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
             webBrowser1.Navigate("http://tandots.ru/news.html");
-            //UpdateApp();
+            webBrowser1.Refresh();
+            TandotsU();
         }
-        //узнаем версию
+        //версия приложеня
+        private void TandotsU()
+        {
+            using (var client = new WebClient())
+            using (var stream = client.OpenRead("http://www.tandots.ru/Launcher/verapp.txt"))
+            using (var reader = new StreamReader(stream))
+                TandotsUp= reader.ReadToEnd();
+            this.Text = "Tandots updater ver: " + TandotsUp;
+
+
+        }
         
         //узнаем версию сервера
         private void serverVer()
@@ -143,13 +155,14 @@ namespace WindowsFormsApp2
             VersionС = VersionS;
             Properties.Settings.Default.ver = VersionС;
             Properties.Settings.Default.Save();
+            label3.Text = "Версия клиента: " + Properties.Settings.Default.ver;
 
         }
 
         //действия с zip
         private void Zip()
         {
-            label1.Text = "Распоковка";
+            label1.Text = "Распаковка";
             InstConfigDiv();
             Directory.SetCurrentDirectory(path + DivGame);
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -159,6 +172,7 @@ namespace WindowsFormsApp2
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.Arguments = "";
             Process.Start(startInfo);
+            label1.Text = "Готово к игре";
         }
         //удаление фалов перед обнавлением
         private void DeliteUpdate()

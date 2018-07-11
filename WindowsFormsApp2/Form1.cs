@@ -29,7 +29,7 @@ namespace WindowsFormsApp2
         //сайт с новостями
         private string NewsSite = "http://tandots.ru/news.htm";
         //первая ссылка
-        private string URL1 = "http://www.tandots.ru/TL.exe";
+        private string URL1 = "http://www.tandots.ru/TL/TL.exe";
         //вторая
         private string URL2 = "http://taruu.ru/tandots/TL.exe";
         private string URL;
@@ -83,12 +83,12 @@ namespace WindowsFormsApp2
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "http://taruu.ru/tandots/TL.exe";
+            URL = URL2;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            URL = "http://www.tandots.ru/TL.exe";
+            URL = URL1;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -134,10 +134,10 @@ namespace WindowsFormsApp2
         private void button2_Click(object sender, EventArgs e)
         {
             InstConfigDiv();
-            if (VersionС != VersionS & !System.IO.Directory.Exists(path + DivGame + @"\.minecraft") & !System.IO.Directory.Exists(path + DivGame + @"\TLauncher") & !System.IO.File.Exists(path + DivGame + @"\start.exe"))
+            if (VersionС != VersionS)
             {
                 MessageBox.Show("Устаревшая версия");
-                UpdateClient();
+                
             }
             else
             {
@@ -304,8 +304,7 @@ namespace WindowsFormsApp2
                 "saves",
                 "config",
                 "server-resource-packs",
-                "logs",
-                ""
+                "logs"
             };
             foreach (var filePath in Directory.EnumerateFiles(path + DivGame + @"\.minecraft\home"))
             {
